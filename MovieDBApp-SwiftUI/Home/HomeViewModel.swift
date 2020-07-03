@@ -10,18 +10,19 @@ import Foundation
 import SwiftUI
 import Combine
 
-class HomeViewModel: ObservableObject {
-    
+class HomeViewModel: BaseViewModel {
     @Published private(set) var models: [HomeModel.ResultModel] = [HomeModel.ResultModel]()
-    @Published private(set) var state: ViewModelState = .Idle
-    @Published private(set) var isCategoryShown: Bool = false
     @Published private var category: CategoryPath = .NowPlaying
     
     private let homeService = HomeService()
     private var cancellable: AnyCancellable?
     
+    deinit {
+        cancellable?.cancel()
+    }
+    
     func fetchAllData() {
-        self.state = .Fetching
+        self.changeState(.Fetching)
         self.cancellable = self.homeService.getAll(self.category)
             .sink(receiveCompletion: { self.handleCompletion($0) }, receiveValue: { self.models = $0.results })
     }
@@ -42,32 +43,8 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func changeCategory(_ val: Bool) {
-        self.isCategoryShown = val
-    }
-    
     func getCategory(_ value: CategoryPath) {
         self.category = value
         self.fetchAllData()
-    }
-    
-    private func handleCompletion(_ completion: Subscribers.Completion<ServiceError>) {
-        switch completion {
-        case .finished:
-            self.state = .Idle
-        case .failure(let error):
-            handleError(error)
-        }
-    }
-    
-    private func handleError(_ error: ServiceError) {
-        switch error {
-        case .DecodingError:
-            self.state = .Error("Error when processing data")
-        case .NetworkingError(let code):
-            self.state = .Error("Networking error, try again. Code: \(code)")
-        case .Other(let error):
-            self.state = .Error(error)
-        }
     }
 }

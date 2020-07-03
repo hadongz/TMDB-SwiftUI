@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,7 +21,12 @@
 		6929803824ACE11700966A54 /* SharedClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929803724ACE11700966A54 /* SharedClass.swift */; };
 		6929803A24ACEE2300966A54 /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929803924ACEE2300966A54 /* Views.swift */; };
 		6929803C24AD102400966A54 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6929803B24AD102400966A54 /* Extension.swift */; };
-		69A7407124ADE52E00E691E3 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 69A7407024ADE52E00E691E3 /* SkeletonUI */; };
+		69BF9B2624AF12DE00E7AB45 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF9B2524AF12DE00E7AB45 /* FavoriteView.swift */; };
+		69BF9B2824AF136600E7AB45 /* FavoriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BF9B2724AF136600E7AB45 /* FavoriteViewModel.swift */; };
+		69C1D40F24AE0A1600E58A90 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1D40E24AE0A1600E58A90 /* DetailView.swift */; };
+		69C1D41124AE133200E58A90 /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1D41024AE133200E58A90 /* DetailModel.swift */; };
+		69C1D41324AE169300E58A90 /* DetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1D41224AE169300E58A90 /* DetailService.swift */; };
+		69C1D41524AE171500E58A90 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69C1D41424AE171500E58A90 /* DetailViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +46,12 @@
 		6929803724ACE11700966A54 /* SharedClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedClass.swift; sourceTree = "<group>"; };
 		6929803924ACEE2300966A54 /* Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		6929803B24AD102400966A54 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		69BF9B2524AF12DE00E7AB45 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
+		69BF9B2724AF136600E7AB45 /* FavoriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewModel.swift; sourceTree = "<group>"; };
+		69C1D40E24AE0A1600E58A90 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		69C1D41024AE133200E58A90 /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
+		69C1D41224AE169300E58A90 /* DetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailService.swift; sourceTree = "<group>"; };
+		69C1D41424AE171500E58A90 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +59,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69A7407124ADE52E00E691E3 /* SkeletonUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,15 +84,16 @@
 		6929801324ACB19E00966A54 /* MovieDBApp-SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
-				6929802E24ACBC8000966A54 /* SharedFiles */,
 				6929802924ACB84200966A54 /* Details */,
+				69BF9B2424AF125900E7AB45 /* Favorites */,
 				6929802824ACB82A00966A54 /* Home */,
+				6929801C24ACB1A300966A54 /* Preview Content */,
+				6929802E24ACBC8000966A54 /* SharedFiles */,
+				6929801F24ACB1A300966A54 /* LaunchScreen.storyboard */,
+				6929802224ACB1A300966A54 /* Info.plist */,
 				6929801424ACB19E00966A54 /* AppDelegate.swift */,
 				6929801624ACB19E00966A54 /* SceneDelegate.swift */,
 				6929801A24ACB1A300966A54 /* Assets.xcassets */,
-				6929801F24ACB1A300966A54 /* LaunchScreen.storyboard */,
-				6929802224ACB1A300966A54 /* Info.plist */,
-				6929801C24ACB1A300966A54 /* Preview Content */,
 			);
 			path = "MovieDBApp-SwiftUI";
 			sourceTree = "<group>";
@@ -109,6 +120,10 @@
 		6929802924ACB84200966A54 /* Details */ = {
 			isa = PBXGroup;
 			children = (
+				69C1D40E24AE0A1600E58A90 /* DetailView.swift */,
+				69C1D41024AE133200E58A90 /* DetailModel.swift */,
+				69C1D41224AE169300E58A90 /* DetailService.swift */,
+				69C1D41424AE171500E58A90 /* DetailViewModel.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -123,6 +138,15 @@
 				6929803B24AD102400966A54 /* Extension.swift */,
 			);
 			path = SharedFiles;
+			sourceTree = "<group>";
+		};
+		69BF9B2424AF125900E7AB45 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				69BF9B2524AF12DE00E7AB45 /* FavoriteView.swift */,
+				69BF9B2724AF136600E7AB45 /* FavoriteViewModel.swift */,
+			);
+			path = Favorites;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,7 +166,6 @@
 			);
 			name = "MovieDBApp-SwiftUI";
 			packageProductDependencies = (
-				69A7407024ADE52E00E691E3 /* SkeletonUI */,
 			);
 			productName = "MovieDBApp-SwiftUI";
 			productReference = 6929801124ACB19E00966A54 /* MovieDBApp-SwiftUI.app */;
@@ -173,7 +196,6 @@
 			);
 			mainGroup = 6929800824ACB19E00966A54;
 			packageReferences = (
-				69A7406F24ADE52E00E691E3 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 			);
 			productRefGroup = 6929801224ACB19E00966A54 /* Products */;
 			projectDirPath = "";
@@ -203,15 +225,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				6929802B24ACB8D700966A54 /* HomeModel.swift in Sources */,
+				69C1D41124AE133200E58A90 /* DetailModel.swift in Sources */,
+				69C1D40F24AE0A1600E58A90 /* DetailView.swift in Sources */,
 				6929803624ACCC6D00966A54 /* HomeViewModel.swift in Sources */,
 				6929801524ACB19E00966A54 /* AppDelegate.swift in Sources */,
 				6929801724ACB19E00966A54 /* SceneDelegate.swift in Sources */,
 				6929803C24AD102400966A54 /* Extension.swift in Sources */,
 				6929801924ACB19E00966A54 /* HomeView.swift in Sources */,
+				69BF9B2624AF12DE00E7AB45 /* FavoriteView.swift in Sources */,
+				69C1D41324AE169300E58A90 /* DetailService.swift in Sources */,
 				6929803224ACBD1600966A54 /* Constants.swift in Sources */,
 				6929802D24ACBBA500966A54 /* HomeService.swift in Sources */,
 				6929803824ACE11700966A54 /* SharedClass.swift in Sources */,
+				69BF9B2824AF136600E7AB45 /* FavoriteViewModel.swift in Sources */,
 				6929803A24ACEE2300966A54 /* Views.swift in Sources */,
+				69C1D41524AE171500E58A90 /* DetailViewModel.swift in Sources */,
 				6929803024ACBC9400966A54 /* Enums.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -404,25 +432,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		69A7406F24ADE52E00E691E3 /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/CSolanaM/SkeletonUI.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		69A7407024ADE52E00E691E3 /* SkeletonUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 69A7406F24ADE52E00E691E3 /* XCRemoteSwiftPackageReference "SkeletonUI" */;
-			productName = SkeletonUI;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 6929800924ACB19E00966A54 /* Project object */;
 }

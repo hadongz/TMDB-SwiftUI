@@ -7,13 +7,18 @@
 //
 
 import SwiftUI
-import SkeletonUI
 
 struct HomeView: View {
+    
     @ObservedObject var viewModel = HomeViewModel()
+    @State var isShown = false
     
     var body: some View {
-        content().onAppear { self.viewModel.fetchAllData()  }
+        NavigationView {
+            content()
+                .navigationBarTitle("Movie List", displayMode: .large)
+                .navigationBarItems(trailing: favoriteButton())
+        }.onAppear { self.viewModel.fetchAllData()  }
     }
     
     func content() -> some View {
@@ -28,22 +33,22 @@ struct HomeView: View {
         case .Fetching:
             return AnyView(Text("Fetching all data"))
         case .Error(let error):
-            return AnyView(Text(error))
+            return AnyView(Text(error)
+                .foregroundColor(Color.red))
         }
     }
     
     func buttonCategory() -> some View {
         VStack(alignment: .center) {
             Spacer()
-            if self.viewModel.isCategoryShown {
+            if self.isShown {
                 popOver()
-            } else {
-                popOver().hidden()
+                    .transition(.scale)
             }
-            Button(action: { self.viewModel.changeCategory(!self.viewModel.isCategoryShown) },
+            Button(action: { withAnimation { self.isShown.toggle() } },
                    label: {
                     Group {
-                        if self.viewModel.isCategoryShown {
+                        if self.isShown {
                             Text("Close").foregroundColor(Color.black).padding()
                         } else {
                             Text("Category").foregroundColor(Color.black).padding()
@@ -98,19 +103,17 @@ struct HomeView: View {
     }
     
     func listView() -> some View {
-        NavigationView {
-            List(viewModel.models, id: \.id) { item in
-                return ZStack {
-                    ListItem(item: item)
-                }
-            }.onAppear { UITableView.appearance().separatorStyle = .none }
-                .navigationBarTitle("Movie List", displayMode: .inline)
-                .navigationBarItems(trailing: favoriteButton())
+        ScrollView {
+            ForEach(self.viewModel.models, id: \.id) { item in
+                NavigationLink(destination: DetailView(id: item.id)) {
+                    ListItem(item: item).padding(EdgeInsets(top: 6, leading: 8, bottom: 4, trailing: 8))
+                }.buttonStyle(PlainButtonStyle())
+            }
         }
     }
     
     func favoriteButton() -> some View {
-        NavigationLink(destination: Text("Hello")) {
+        NavigationLink(destination: FavoriteView()) {
             Image(systemName: "heart.fill").foregroundColor(Color.pink)
         }
     }
@@ -126,7 +129,7 @@ struct ListItem: View {
     var body: some View {
         HStack(alignment: .top) {
             AsyncImage(url: URL(string: Constants.IMAGE_URL + item.poster_path)!,
-                       placeholder: Text("Fetching image"),
+                       placeholder: Text("loading..."),
                        cache: self.cache)
                 .frame(width: 125, height: 175)
                 .aspectRatio(contentMode: .fit)
@@ -140,11 +143,10 @@ struct ListItem: View {
                 Text(item.overview)
                     .font(.system(size: 14))
                     .multilineTextAlignment(.leading)
-                    .lineLimit(4)
+                    .lineLimit(5)
                     .padding(3)
                 Spacer()
                 GeometryReader { geo in
-                    Spacer()
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 8).fill(Color.gray)
                         RoundedRectangle(cornerRadius: 8).fill(self.viewModel.getBarColor(self.item.vote_average))
@@ -157,7 +159,7 @@ struct ListItem: View {
                         
                     }.frame(height: 20)
                 }
-            }.padding(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 6))
+            }.padding(EdgeInsets(top: 4, leading: 0, bottom: 0, trailing: 6))
         }.cornerRadius(10)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity, alignment: .topLeading)
             .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 3))

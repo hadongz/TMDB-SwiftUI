@@ -10,7 +10,9 @@ import Foundation
 import SwiftUI
 import Combine
 
-class WebService {
+// MARK: - Base Class for Web Service
+
+class BaseService {
     var urlComponents: URLComponents {
         var components = URLComponents()
         components.scheme = Constants.WEB_PROTOCOL
@@ -41,6 +43,39 @@ class WebService {
         }
     }
 }
+
+// MARK: - Base Class for View Model
+
+class BaseViewModel: ObservableObject {
+    
+    @Published private(set) var state: ViewModelState = .Idle
+    
+    func handleCompletion(_ completion: Subscribers.Completion<ServiceError>) {
+        switch completion {
+        case .finished:
+            self.state = .Idle
+        case .failure(let error):
+            handleError(error)
+        }
+    }
+    
+    func handleError(_ error: ServiceError) {
+        switch error {
+        case .DecodingError:
+            self.state = .Error("Error when processing data")
+        case .NetworkingError(let code):
+            self.state = .Error("Networking error, try again. Code: \(code)")
+        case .Other(let error):
+            self.state = .Error(error)
+        }
+    }
+    
+    func changeState(_ val: ViewModelState){
+        self.state = val
+    }
+}
+
+// MARK: - Async Image service
 
 class ImageLoader: ObservableObject {
     
@@ -98,6 +133,8 @@ class ImageLoader: ObservableObject {
     }
 }
 
+// MARK: - Configuration for image caching
+
 protocol ImageCache {
     subscript(_ url: URL) -> UIImage? { get set }
 }
@@ -113,4 +150,20 @@ struct TemporaryImageCache: ImageCache {
 
 struct ImageCacheKey: EnvironmentKey {
     static let defaultValue: ImageCache = TemporaryImageCache()
+}
+
+// MARK: - Navigation Controller Configuration
+
+struct NavigationConfigurator: UIViewControllerRepresentable {
+    var configure: (UINavigationController) -> Void = { _ in }
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<NavigationConfigurator>) -> UIViewController {
+        UIViewController()
+    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<NavigationConfigurator>) {
+        if let nc = uiViewController.navigationController {
+            self.configure(nc)
+        }
+    }
+    
 }
