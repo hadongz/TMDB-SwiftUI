@@ -27,3 +27,14 @@ struct DetailModel: Codable {
         var name: String
     }
 }
+
+struct ReviewsModel: Decodable {
+    var results: [ResultModel]
+    
+    struct ResultModel: Decodable {
+        var author: String
+        var content: String
+        var id: String
+        var url: String
+    }
+}

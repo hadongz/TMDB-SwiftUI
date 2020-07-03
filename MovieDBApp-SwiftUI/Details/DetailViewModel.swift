@@ -8,21 +8,35 @@
 
 import Foundation
 import Combine
+import UIKit
 
 class DetailViewModel: BaseViewModel {
     @Published private(set) var model: DetailModel?
+    @Published private(set) var reviews: [ReviewsModel.ResultModel] = [ReviewsModel.ResultModel]()
     
     private let detailService = DetailService()
-    private var cancellable: AnyCancellable?
+    private var cancellable = Set<AnyCancellable>()
     private let defaults = UserDefaults.standard
     
     deinit {
-        cancellable?.cancel()
+        cancellable.removeAll()
     }
     
     func getDetail(_ id: Int32) {
-        cancellable = detailService.getDetail(id)
-            .sink(receiveCompletion: { self.handleCompletion($0) }, receiveValue: { self.model = $0; print(self.model as Any) })
+        detailService.getDetail(id)
+            .sink(receiveCompletion: { self.handleCompletion($0) }, receiveValue: { self.model = $0 })
+            .store(in: &cancellable)
+    }
+    
+    func getReviews(_ id: Int32) {
+        detailService.getReviews(id)
+            .sink(receiveCompletion: { self.handleCompletion($0) }, receiveValue: { self.reviews = $0.results })
+            .store(in: &cancellable)
+    }
+    
+    func showFullReview(_ urlString: String) {
+        guard let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url)
     }
     
     func saveToFavorites(_ item: DetailModel) {
